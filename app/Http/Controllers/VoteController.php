@@ -43,7 +43,7 @@ class VoteController extends Controller
         $divisi = collect($resultPerDivisi);
 
 
-        $datas = $divisi->map(function ($item, $key) {
+        $datas = $divisi->map(function ($item, $key) use ($choises, $division) {
 
             $skor = [];
             // Payment
@@ -55,50 +55,58 @@ class VoteController extends Controller
                 }
             }
 
+            $skor_item = collect($skor)->max();
 
+            $skor_sementara = [];
+            foreach ($skor as $key => $value) {
+                if ($value === $skor_item) {
+                    $skor_sementara[$key] = 1;
+                }
+            }
 
+            $count_skor_result = count($skor_sementara);
+            if ($count_skor_result > 1) {
+                foreach ($skor_sementara as $key => $value) {
+                    $skor_sementara[$key] = 1 / $count_skor_result;
+                }
+            }
 
-            // $prevSkor = $skor;
-            $item['skor'] = $skor;
+            $choisesName = [];
+            foreach ($choises as $key => $choise) {
+                $choisesName[] = $choise['choise'];
+            }
 
-            // foreach ($skor as $key => $itemSkor) {
-
-
-            //     if ($itemSkor > $prevSkor) {
-            //         $data[$key] = 1;
-            //     }
-            // }
-
-            // $item['skor_item'] = collect($skor)->max();
+            foreach ($division as $div) {
+                if (isset($item[$div['name']])) {
+                    unset($item[$div['name']]);
+                    $item[$div['name']] = $skor_sementara;
+                    break;
+                }
+            }
 
             return $item;
         });
 
-        return $datas;
+        // nilai skor awal choises berdasarkan divisi 
+        return $nilai_choise_awal = $choises->map(function ($item, $key) use ($division) {
+            $result = [];
+            $result[$item['choise']] = 0;
+            $divisions = [];
+            foreach ($division as $divisi) {
+                $divisions[$divisi['name']] = $result;
+            }
+            return $result;
+        })->collapse(); 
 
+        // nilai sementara skor choises berdasarkan divisi
+        return collect($datas)->map(function ($item) {
+            $result = [];
+            foreach ($item as $key => $value) {
+                //if ($wfo) //
+            }
 
-        // $collection = collect(['satu' => ['payment' => ['payment1', 'payment2']]    ]);
-
-        // $multiplied = $collection->map(function ($item, $key) {
-
-        //     $data = [];
-        //     foreach ($item as $i) {
-        //         $data[] = count($i);
-        //     }
-
-        //     return $item;
-        // });
-
-        // return $multiplied->all();
-        // dd(collect($resultPerDivisi)->map(function ($item) {
-        //     // $item = true;
-
-
-        //     return $item;
-        // }));
-
-
-        // $voteBaru = collect([$vote])->map
+            return $item;
+        });
 
         return response()->json(['vote' => 'vote']);
     }
