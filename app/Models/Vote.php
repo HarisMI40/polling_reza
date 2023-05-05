@@ -10,4 +10,8 @@ class Vote extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+
+    public function division() {
+        return $this->hasMany(Division::class, '');
+    }
 }

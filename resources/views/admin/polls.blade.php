@@ -25,7 +25,9 @@
                             <small>- Deadline : {{ $poll['deadline'] }}</small>
 
                             <div class="d-flex justify-content-end">
-                                <a href="/admin/polling/{{ $poll['id'] }}" class="btn btn-primary btn-sm mt-3">Lihat</a>
+                                {{-- <a href="/admin/polling/{{ $poll['id'] }}" class="btn btn-primary btn-sm mt-3">Lihat</a> --}}
+                                <a href="{{ url('/admin/polling/' . $poll['id']) }}"
+                                    class="btn btn-primary btn-sm mt-3">Lihat</a>
                             </div>
                         </div>
 

@@ -1,0 +1,21 @@
+{
+  "cara_1" :  {
+        "divisi_it": {
+            "user_1": "wfo",
+            "user_2": "wfh",
+            "user_3": "wfh",
+            "user_4": "wfh",
+            "user_5": "wfh",
+            "user_6": "wfh"
+        }
+    },
+
+
+    
+  "cara_2" :  {
+        "divisi_it": {
+            "wfo": 1,
+            "wfh": 6
+        }
+    }
+}

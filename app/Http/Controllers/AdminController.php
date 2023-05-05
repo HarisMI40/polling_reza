@@ -42,7 +42,15 @@ class AdminController extends Controller
 
     function showPolling(string $id)
     {
-        $data['poll'] = PollResult::admin($id);
-        return view('admin.poll', $data);
+
+      
+
+
+
+        $data['poll'] = PollResult::admin_2($id);
+        return $data['poll'];
+
+
+        // return view('admin.poll', $data);
     }
 }
