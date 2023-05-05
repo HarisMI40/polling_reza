@@ -11,7 +11,18 @@ class Vote extends Model
 
     protected $guarded = ['id'];
 
-    public function division() {
-        return $this->hasMany(Division::class, '');
+    public function division()
+    {
+        return $this->belongsTo(Division::class, 'division_id', 'id');
+    }
+
+    function choise()
+    {
+        return $this->belongsTo(Choise::class, 'choise_id');
+    }
+
+    function user()
+    {
+        // return 
     }
 }
