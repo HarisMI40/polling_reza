@@ -22,3 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::controller(VoteController::class)->group(function () {
     Route::get('vote', 'show');
 });
+
+Route::get('test', function () {
+    return 'hiiiii';
+});

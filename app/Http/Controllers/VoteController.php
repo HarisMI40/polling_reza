@@ -40,11 +40,66 @@ class VoteController extends Controller
             }
         }
 
-        return $resultPerDivisi;
+        $divisi = collect($resultPerDivisi);
+
+
+        $datas = $divisi->map(function ($item, $key) {
+
+            $skor = [];
+            // Payment
+            foreach ($item as $a) {
+
+                //WFO
+                foreach ($a as $key => $value) {
+                    $skor[$key] = count($value);
+                }
+            }
+
+
+
+
+            // $prevSkor = $skor;
+            $item['skor'] = $skor;
+
+            // foreach ($skor as $key => $itemSkor) {
+
+
+            //     if ($itemSkor > $prevSkor) {
+            //         $data[$key] = 1;
+            //     }
+            // }
+
+            // $item['skor_item'] = collect($skor)->max();
+
+            return $item;
+        });
+
+        return $datas;
+
+
+        // $collection = collect(['satu' => ['payment' => ['payment1', 'payment2']]    ]);
+
+        // $multiplied = $collection->map(function ($item, $key) {
+
+        //     $data = [];
+        //     foreach ($item as $i) {
+        //         $data[] = count($i);
+        //     }
+
+        //     return $item;
+        // });
+
+        // return $multiplied->all();
+        // dd(collect($resultPerDivisi)->map(function ($item) {
+        //     // $item = true;
+
+
+        //     return $item;
+        // }));
 
 
         // $voteBaru = collect([$vote])->map
-         
+
         return response()->json(['vote' => 'vote']);
     }
 }
