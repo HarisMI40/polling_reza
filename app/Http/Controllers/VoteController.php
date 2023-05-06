@@ -88,7 +88,7 @@ class VoteController extends Controller
         });
 
         // nilai skor awal choises berdasarkan divisi 
-        return $nilai_choise_awal = $choises->map(function ($item, $key) use ($division) {
+        $nilai_choise_awal = $choises->map(function ($item, $key) use ($division) {
             $result = [];
             $result[$item['choise']] = 0;
             $divisions = [];
@@ -96,18 +96,26 @@ class VoteController extends Controller
                 $divisions[$divisi['name']] = $result;
             }
             return $result;
-        })->collapse(); 
+        })->collapse();
 
         // nilai sementara skor choises berdasarkan divisi
-        return collect($datas)->map(function ($item) {
-            $result = [];
-            foreach ($item as $key => $value) {
-                //if ($wfo) //
+        $r = [];
+        $tes = [];
+        foreach ($datas as $data) {
+            foreach ($data as $key_divisi =>  $choise_result) {
+                $r[$key_divisi] = $choise_result;
+                foreach ($choise_result as $key_choise => $nilai_choise_sementara) {
+                    foreach ($nilai_choise_awal as $key_choise_awal => $nilai_choise) {
+                        if ($key_choise == $key_choise_awal) {
+                            $nilai_choise_awal[$key_choise_awal] += $nilai_choise_sementara;
+                            break;
+                        }
+                    }
+                }
             }
+        }
 
-            return $item;
-        });
-
-        return response()->json(['vote' => 'vote']);
+        // hasil akhir
+        return $nilai_choise_awal;
     }
 }
